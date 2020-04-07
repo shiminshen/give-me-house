@@ -16,6 +16,7 @@ bot.on('message',  (event) => {
 });
 
 const PORT = 3000;
-bot.listen('/linewebhook', PORT, () => {
+// env PORT for heroku
+bot.listen('/linewebhook', process.env.PORT || PORT, () => {
     console.log(`bot is active at localhost:${PORT}`);
 });
