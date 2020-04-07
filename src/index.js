@@ -26,19 +26,9 @@ app.post('/webhook', line.middleware(config), async (req, res) => {
         type: 'text',
         text: houseData[0].title,
       });
-
-      // if (event.source.type === 'room') {
-      //   client.leaveRoom(event.source.roomId);
-      // } else if (event.source.type === 'group') {
-      //   client.leaveGroup(event.source.groupId);
-      // } else {
-      //   client.replyMessage(event.replyToken, {
-      //     type: 'text',
-      //     text: 'I cannot leave a 1-on-1 chat!',
-      //   });
-      // }
     }
   }
+  res.json({})
 });
 
 // listen on port
