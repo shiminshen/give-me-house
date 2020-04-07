@@ -2,13 +2,15 @@
   "name": "give-me-house",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
+    "start": "nodemon src/index.js --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Damon Shen",
   "license": "ISC",
   "dependencies": {
+    "linebot": "^1.5.3",
     "node-fetch": "^2.6.0"
   },
   "devDependencies": {
