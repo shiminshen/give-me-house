@@ -6,27 +6,30 @@ const config = {
   channelSecret: 'c1d2bab6c05c09198e296ffd4e3040e2',
   channelAccessToken: 'zPZ+AMy9vXfzrJ9AmJxkxdQ+I8EAANlYFFrHzw312BhBoGCVDr0fvEPMt99waz8Qnq1RovA+HrLCn+OOvYA7/OREM2kC0+Z7DAwH0NcGGAP917PIYp1axvXsHPnWqC57+OTRkUXipPR0MN2y6lhACwdB04t89/1O/w1cDnyilFU='
 };
+const client = new line.Client(config);
 
 const app = express();
 app.post('/webhook', line.middleware(config), (req, res) => {
   res.json({})
-  // Promise
-  //   .all(req.body.events.map(handleEvent))
-  //   .then((result) => res.json(result));
-});
+  const event = req.body.events[0];
 
-const client = new line.Client(config);
-function handleEvent(event) {
-  if (event.type !== 'message' || event.message.type !== 'text') {
-    return Promise.resolve(null);
+  if (event.type === 'message') {
+    const message = event.message;
+
+    if (message.type === 'text' && message.text === 'bye') {
+      if (event.source.type === 'room') {
+        client.leaveRoom(event.source.roomId);
+      } else if (event.source.type === 'group') {
+        client.leaveGroup(event.source.groupId);
+      } else {
+        client.replyMessage(event.replyToken, {
+          type: 'text',
+          text: 'I cannot leave a 1-on-1 chat!',
+        });
+      }
+    }
   }
-
-  return client.replyMessage(event.replyToken, {
-    type: 'text',
-    text: event.message.text
-  });
-}
-
+});
 
 // listen on port
 const port = process.env.PORT || 3000;
