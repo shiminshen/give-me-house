@@ -13,8 +13,12 @@ app.post('/webhook', line.middleware(config), (req, res) => {
   res.json({})
   const event = req.body.events[0];
 
+  console.log('event');
+  console.log(event);
   if (event.type === 'message') {
     const message = event.message;
+    console.log('message');
+    console.log(message);
 
     if (message.type === 'text' && message.text === 'bye') {
       if (event.source.type === 'room') {
