@@ -10,7 +10,8 @@
   "author": "Damon Shen",
   "license": "ISC",
   "dependencies": {
-    "linebot": "^1.5.3",
+    "@line/bot-sdk": "^6.8.4",
+    "express": "^4.17.1",
     "node-fetch": "^2.6.0"
   },
   "devDependencies": {
