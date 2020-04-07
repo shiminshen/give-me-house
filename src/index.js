@@ -1,5 +1,6 @@
 const line = require('@line/bot-sdk');
 const express = require('express');
+const api = require('./api');
 
 // create LINE SDK config from env variables
 const config = {
@@ -17,17 +18,25 @@ app.post('/webhook', line.middleware(config), async (req, res) => {
     console.log('message');
     console.log(message);
 
-    if (message.type === 'text' && message.text === 'bye') {
-      if (event.source.type === 'room') {
-        client.leaveRoom(event.source.roomId);
-      } else if (event.source.type === 'group') {
-        client.leaveGroup(event.source.groupId);
-      } else {
-        client.replyMessage(event.replyToken, {
-          type: 'text',
-          text: 'I cannot leave a 1-on-1 chat!',
-        });
-      }
+    // if (message.type === 'text' && message.text === 'bye') {
+    if (message.type === 'text') {
+      const houseData = await getHouse()
+      console.log(houseData);
+      client.replyMessage(event.replyToken, {
+        type: 'text',
+        text: houseData[0].title,
+      });
+
+      // if (event.source.type === 'room') {
+      //   client.leaveRoom(event.source.roomId);
+      // } else if (event.source.type === 'group') {
+      //   client.leaveGroup(event.source.groupId);
+      // } else {
+      //   client.replyMessage(event.replyToken, {
+      //     type: 'text',
+      //     text: 'I cannot leave a 1-on-1 chat!',
+      //   });
+      // }
     }
   }
 });

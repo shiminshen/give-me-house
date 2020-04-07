@@ -15,7 +15,9 @@ const getHouse = async () => {
     }
   })
 	.then(res => res.json())
-  console.log(searchResult.data.data.length);
+  return searchResult.data.data
 }
 
-getHouse()
+module.exports = {
+  getHouse
+}
