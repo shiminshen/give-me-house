@@ -20,7 +20,7 @@ app.post('/webhook', line.middleware(config), async (req, res) => {
 
     // if (message.type === 'text' && message.text === 'bye') {
     if (message.type === 'text') {
-      const houseData = await getHouse()
+      const houseData = await api.getHouse()
       console.log(houseData);
       client.replyMessage(event.replyToken, {
         type: 'text',
