@@ -21,10 +21,10 @@ app.post('/webhook', line.middleware(config), async (req, res) => {
     // if (message.type === 'text' && message.text === 'bye') {
     if (message.type === 'text') {
       const houseData = await api.getHouse()
-      console.log(houseData);
+      console.log(houseData[0]);
       client.replyMessage(event.replyToken, {
         type: 'text',
-        text: houseData[0].title,
+        text: houseData[0].address,
       });
     }
   }
