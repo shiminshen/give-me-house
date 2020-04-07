@@ -21,70 +21,25 @@ app.post('/webhook', line.middleware(config), async (req, res) => {
     // if (message.type === 'text' && message.text === 'bye') {
     if (message.type === 'text') {
       const houseData = await api.getHouse()
-      console.log(houseData[0]);
+      const messages = houseData.map(h => ({
+        "thumbnailImageUrl": h.cover,
+        "imageBackgroundColor": "#FFFFFF",
+        "title": h.address_img,
+        "text": `$${h.price}\n${h.layout}\n${h.posttime}\n${h.search_name} ${h.distance}m`,
+        "actions": [
+          {
+            "type": "uri",
+            "label": "View detail",
+            "uri": `https://rent.591.com.tw/rent-detail-${h.id}.html`
+          }
+        ]
+      })).slice(0,10)
       client.replyMessage(event.replyToken, {
         "type": "template",
         "altText": "this is a carousel template",
         "template": {
           "type": "carousel",
-          "columns": [
-            {
-              "thumbnailImageUrl": "https://example.com/bot/images/item1.jpg",
-              "imageBackgroundColor": "#FFFFFF",
-              "title": "this is menu",
-              "text": "description",
-              "defaultAction": {
-                "type": "uri",
-                "label": "View detail",
-                "uri": "http://example.com/page/123"
-              },
-              "actions": [
-                {
-                  "type": "postback",
-                  "label": "Buy",
-                  "data": "action=buy&itemid=111"
-                },
-                {
-                  "type": "postback",
-                  "label": "Add to cart",
-                  "data": "action=add&itemid=111"
-                },
-                {
-                  "type": "uri",
-                  "label": "View detail",
-                  "uri": "http://example.com/page/111"
-                }
-              ]
-            },
-            {
-              "thumbnailImageUrl": "https://example.com/bot/images/item2.jpg",
-              "imageBackgroundColor": "#000000",
-              "title": "this is menu",
-              "text": "description",
-              "defaultAction": {
-                "type": "uri",
-                "label": "View detail",
-                "uri": "http://example.com/page/222"
-              },
-              "actions": [
-                {
-                  "type": "postback",
-                  "label": "Buy",
-                  "data": "action=buy&itemid=222"
-                },
-                {
-                  "type": "postback",
-                  "label": "Add to cart",
-                  "data": "action=add&itemid=222"
-                },
-                {
-                  "type": "uri",
-                  "label": "View detail",
-                  "uri": "http://example.com/page/222"
-                }
-              ]
-            }
-          ],
+          "columns": messages,
           "imageAspectRatio": "rectangle",
           "imageSize": "cover"
         }
