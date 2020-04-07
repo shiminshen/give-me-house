@@ -37,7 +37,24 @@ app.post('/webhook', line.middleware(config), async (req, res) => {
                 "type": "uri",
                 "label": "View detail",
                 "uri": "http://example.com/page/123"
-              }
+              },
+              "actions": [
+                {
+                  "type": "postback",
+                  "label": "Buy",
+                  "data": "action=buy&itemid=111"
+                },
+                {
+                  "type": "postback",
+                  "label": "Add to cart",
+                  "data": "action=add&itemid=111"
+                },
+                {
+                  "type": "uri",
+                  "label": "View detail",
+                  "uri": "http://example.com/page/111"
+                }
+              ]
             },
             {
               "thumbnailImageUrl": "https://example.com/bot/images/item2.jpg",
@@ -70,7 +87,7 @@ app.post('/webhook', line.middleware(config), async (req, res) => {
           ],
           "imageAspectRatio": "rectangle",
           "imageSize": "cover"
-        } 
+        }
       });
     }
   }
