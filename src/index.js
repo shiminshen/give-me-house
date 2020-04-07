@@ -18,10 +18,13 @@ app.post('/webhook', line.middleware(config), async (req, res) => {
     console.log('message');
     console.log(message);
 
-    // if (message.type === 'text' && message.text === 'bye') {
-    if (message.type === 'text') {
+    if (message.type === 'text' && message.text === 'fuck') {
       const houseData = await api.getHouse()
-      const messages = houseData.map(h => ({
+      console.log(houseData);
+      const messages = houseData
+        .filter(h => h.distance < 2500)
+        .slice(0,10)
+        .map(h => ({
         "thumbnailImageUrl": h.cover,
         "imageBackgroundColor": "#FFFFFF",
         "title": h.address_img,
@@ -33,7 +36,7 @@ app.post('/webhook', line.middleware(config), async (req, res) => {
             "uri": `https://rent.591.com.tw/rent-detail-${h.id}.html`
           }
         ]
-      })).slice(0,10)
+      }))
       client.replyMessage(event.replyToken, {
         "type": "template",
         "altText": "this is a carousel template",
