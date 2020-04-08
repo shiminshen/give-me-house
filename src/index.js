@@ -12,7 +12,7 @@ const config = {
 };
 const client = new line.Client(config);
 
-const generateMessage = (data) => {
+const generateHouseDataMessage = (data) => {
   const columns = data
     .filter((h) => h.distance < 2500)
     .slice(0, 10)
@@ -48,7 +48,7 @@ setInterval(async () => {
   // only get data in last one hour
   const newData = houseData.filter((h) => (currTime - h.updatetime) / 3600 < 1);
   if (newData.length) {
-    const message = generateMessage(newData);
+    const message = generateHouseDataMessage(newData);
     client.pushMessage(wholeNewLifeId, [
       { type: "text", text: "有新房子囉!!!" },
       message,
@@ -67,7 +67,7 @@ app.post("/webhook", line.middleware(config), async (req, res) => {
 
     if (message.type === "text" && message.text === "fuck") {
       const houseData = await api.getHouse();
-      const message = generateMessage(houseData);
+      const message = generateHouseDataMessage(houseData);
       client.replyMessage(event.replyToken, message);
     }
   }
