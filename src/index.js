@@ -48,8 +48,7 @@ setInterval(async () => {
   const newData = houseData.filter(h => ((currTime - h.updatetime) / 3600) < 1)
   if (newData.length) {
     const message = generateMessage(newData)
-    client.pushMessage(wholeNewLifeId, { type: 'text', text: '有新房子囉!!!' })
-    client.pushMessage(wholeNewLifeId, message)
+    client.pushMessage(wholeNewLifeId, [{ type: 'text', text: '有新房子囉!!!' }, message ])
   }
 
 }, 3600000)
