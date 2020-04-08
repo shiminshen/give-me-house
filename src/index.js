@@ -12,6 +12,7 @@ const client = new line.Client(config);
 const app = express();
 app.post('/webhook', line.middleware(config), async (req, res) => {
   const event = req.body.events[0];
+  console.log(event.body.events[0].source);
 
   if (event.type === 'message') {
     const message = event.message;
