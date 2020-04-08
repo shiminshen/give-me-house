@@ -41,7 +41,7 @@ const generateMessage = (data) => {
   }
 };
 
-setInterval(() => {
+setInterval(async () => {
   const currTime = new Date().getTime() / 1000
   const houseData = await api.getHouse()
   // only get data in last one hour
