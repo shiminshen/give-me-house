@@ -9,6 +9,7 @@ const config = {
 };
 const client = new line.Client(config);
 
+client.broadcast({ type: 'text', text: '你才北七' })
 const app = express();
 app.post('/webhook', line.middleware(config), async (req, res) => {
   const event = req.body.events[0];
