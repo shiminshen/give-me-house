@@ -42,11 +42,14 @@ const generateHouseDataMessage = (data) => {
   };
 };
 
+const duration = 3600;
 setInterval(async () => {
   const currTime = new Date().getTime() / 1000;
   const houseData = await api.getHouse();
   // only get data in last one hour
-  const newData = houseData.filter((h) => (currTime - h.updatetime) / 3600 < 1);
+  const newData = houseData.filter(
+    (h) => (currTime - h.updatetime) / duration < 1
+  );
   if (newData.length) {
     const message = generateHouseDataMessage(newData);
     client.pushMessage(wholeNewLifeId, [
@@ -54,7 +57,7 @@ setInterval(async () => {
       message,
     ]);
   }
-}, 3600000);
+}, duration * 1000);
 
 const app = express();
 app.post("/webhook", line.middleware(config), async (req, res) => {
