@@ -14,7 +14,7 @@ const client = new line.Client(config);
 
 const generateHouseDataMessage = (data) => {
   const columns = data
-    .filter((h) => h.distance < 2500)
+    .filter((h) => h.distance < 5000)
     .slice(0, 10)
     .map((h) => ({
       thumbnailImageUrl: h.cover,
