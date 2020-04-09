@@ -54,9 +54,9 @@ setInterval(async () => {
     (h) => (currTime - h.updatetime) / duration < 1
   );
   console.log("times up !!!!!!!!");
-  console.log(houseData);
   console.log(newData);
   if (newData.length) {
+    console.log("push message");
     const message = generateHouseDataMessage(newData);
     client.pushMessage(wholeNewLifeId, [
       { type: "text", text: "有新房子囉!!!" },
