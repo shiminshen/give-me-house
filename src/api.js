@@ -1,13 +1,11 @@
 const fetch = require("node-fetch");
 
 // const mrtcoods = "4315,4316,4317,4318,4319,4320,4321,4282,4323,4324,4185,4186,4187";
-const mrtcoods = "4319,4318,4320,4321,4282";
-const url = `https://rent.591.com.tw/home/search/rsList?is_new_list=1&type=1&kind=1&searchtype=4&mrtline=100&patternMore=3,4&region=1&mrt=1&rentpriceMore=4,5&patternMore=3,4&not_cover=1&mrtcoods=${mrtcoods}`;
+const mrtcoods = "4320,4321,4282,4323,4319";
+const url = `https://rent.591.com.tw/home/search/rsList?is_new_list=1&type=1&kind=1&searchtype=4&mrtline=100&patternMore=3,4&order=posttime&orderType=desc&region=1&mrt=1&mrtcoods=${mrtcoods}&rentpriceMore=4,5&patternMore=3,4`;
 
 const getHouse = async (searchURL = url) => {
-  const res = await fetch(
-    "https://rent.591.com.tw/?kind=1&mrtline=100&mrtline=100&order=posttime&orderType=desc&region=1&mrt=1&mrtcoods=4187,4186,4185,4320&rentprice=4&pattern=3"
-  );
+  const res = await fetch("https://rent.591.com.tw");
   const cookie = res.headers
     .raw()
     ["set-cookie"].find((h) => /^591_new_session/.test(h));
