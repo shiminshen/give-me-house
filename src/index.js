@@ -1,5 +1,6 @@
 const line = require("@line/bot-sdk");
 const express = require("express");
+const fetch = require("node-fetch");
 const api = require("./api");
 
 const wholeNewLifeId = "C2f975b0dd7905f0e8f4da6db716f60df";
