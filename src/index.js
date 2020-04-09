@@ -45,7 +45,10 @@ const generateHouseDataMessage = (data) => {
 const duration = 3600;
 setInterval(async () => {
   const currTime = new Date().getTime() / 1000;
-  const houseData = await api.getHouse();
+
+  const mrtcoods = "4319,4318,4320,4321,4282";
+  const url = `https://rent.591.com.tw/home/search/rsList?is_new_list=1&type=1&kind=1&searchtype=4&mrtline=100&patternMore=3,4&region=1&mrt=1&rentpriceMore=4,5&patternMore=3,4&not_cover=1&mrtcoods=${mrtcoods}&order=posttime&orderType=desc`;
+  const houseData = await api.getHouse(url);
   // only get data in last one hour
   const newData = houseData.filter(
     (h) => (currTime - h.updatetime) / duration < 1
