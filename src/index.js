@@ -55,6 +55,8 @@ setInterval(async () => {
   );
   console.log("times up !!!!!!!!");
   console.log(newData);
+  // prevent heroku idling every hour
+  await fetch("https://give-me-house.herokuapp.com/webhook");
   if (newData.length) {
     console.log("push message");
     const message = generateHouseDataMessage(newData);
