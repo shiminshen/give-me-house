@@ -42,7 +42,7 @@ const generateHouseDataMessage = (data) => {
   };
 };
 
-const duration = 3600;
+const duration = 1800;
 setInterval(async () => {
   const currTime = new Date().getTime() / 1000;
 
@@ -53,6 +53,9 @@ setInterval(async () => {
   const newData = houseData.filter(
     (h) => (currTime - h.updatetime) / duration < 1
   );
+  console.log("times up !!!!!!!!");
+  console.log(houseData);
+  console.log(newData);
   if (newData.length) {
     const message = generateHouseDataMessage(newData);
     client.pushMessage(wholeNewLifeId, [
