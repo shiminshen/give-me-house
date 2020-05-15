@@ -52,14 +52,15 @@ const getRecentHouseMessage = async (url) => {
   return newData;
 };
 
+const house3URL = `https://rent.591.com.tw/home/search/rsList?is_new_list=1&type=1&kind=1&searchtype=4&mrtline=100&order=posttime&orderType=desc&region=1&mrt=1&mrtcoods=${api.mrtcoods}&rentpriceMore=4,5&patternMore=3`;
 const house4URL = `https://rent.591.com.tw/home/search/rsList?is_new_list=1&type=1&kind=1&searchtype=4&mrtline=100&order=posttime&orderType=desc&region=1&mrt=1&mrtcoods=${api.mrtcoods}&rentpriceMore=4,5,6&patternMore=4`;
 
 const duration = 1800;
 setInterval(async () => {
   const [house3Data, house4Data] = await Promise.all([
-    getRecentHouseMessage(),
+    getRecentHouseMessage(house3URL),
     getRecentHouseMessage(house4URL),
-  ]);
+  ]).catch((e) => console.log(e));
   // prevent heroku idling every hour
   await fetch("https://give-me-house.herokuapp.com/webhook");
   if (house3Data.length || house4Data.length) {
