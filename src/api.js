@@ -5,7 +5,7 @@ const fetch = require("node-fetch");
 // 忠孝復興 to 南港展覽館
 const mrtcoods =
   "4187,4186,4185,4324,4323,4282,4321,4320,4319,4318,4317,4316,4315,4314,4257";
-const url = `https://rent.591.com.tw/home/search/rsList?is_new_list=1&type=1&kind=1&searchtype=4&mrtline=100&order=posttime&orderType=desc&region=1&mrt=1&mrtcoods=${mrtcoods}&rentpriceMore=4,5,6&patternMore=3,4`;
+const url = `https://rent.591.com.tw/home/search/rsList?is_new_list=1&type=1&kind=1&searchtype=4&mrtline=100&order=posttime&orderType=desc&region=1&mrt=1&mrtcoods=${mrtcoods}&rentpriceMore=4,5&patternMore=3`;
 
 const getHouse = async (searchURL = url) => {
   const res = await fetch("https://rent.591.com.tw");
@@ -26,5 +26,6 @@ const getHouse = async (searchURL = url) => {
 };
 
 module.exports = {
+  mrtcoods,
   getHouse,
 };

@@ -43,25 +43,37 @@ const generateHouseDataMessage = (data) => {
   };
 };
 
+const getRecentHouseMessage = async (url) => {
+  const houseData = await api.getHouse(url);
+  const newData = houseData.filter(
+    (h) => (currTime - h.updatetime) / duration < 1
+  );
+  return newData;
+};
+
+const house4URL = `https://rent.591.com.tw/home/search/rsList?is_new_list=1&type=1&kind=1&searchtype=4&mrtline=100&order=posttime&orderType=desc&region=1&mrt=1&mrtcoods=${api.mrtcoods}&rentpriceMore=4,5,6&patternMore=4`;
+
 const duration = 1800;
 setInterval(async () => {
   const currTime = new Date().getTime() / 1000;
 
-  const houseData = await api.getHouse();
-  // only get data in last one hour
-  const newData = houseData.filter(
-    (h) => (currTime - h.updatetime) / duration < 1
-  );
-  console.log("times up !!!!!!!!");
-  console.log(newData);
+  const [house3Data, house4Data] = await Promise.all([
+    getRecentHouseMessage(),
+    getRecentHouseMessage(house4URL),
+  ]);
   // prevent heroku idling every hour
   await fetch("https://give-me-house.herokuapp.com/webhook");
-  if (newData.length) {
-    console.log("push message");
-    const message = generateHouseDataMessage(newData);
+  if (house3Data.length || house4Data.length) {
+    const house3Message = generateHouseDataMessage(house3Data);
+    const house4Message = generateHouseDataMessage(house4Data);
+
     client.pushMessage(wholeNewLifeId, [
-      { type: "text", text: "有新房子囉!!!" },
-      message,
+      ...(house3Data.length
+        ? [{ type: "text", text: "有新房子囉(3房)" }, house3Message]
+        : []),
+      ...(house4Data.length
+        ? [{ type: "text", text: "有新房子囉(4房)" }, house4Message]
+        : []),
     ]);
   }
 }, duration * 1000);
@@ -76,9 +88,22 @@ app.post("/webhook", line.middleware(config), async (req, res) => {
     console.log(message);
 
     if (message.type === "text" && message.text === "fuck") {
-      const houseData = await api.getHouse();
-      const message = generateHouseDataMessage(houseData);
-      client.replyMessage(event.replyToken, message);
+      // const house3Data = await api.getHouse();
+      // const house3Data = await api.getHouse(house4URL);
+      const [house3Data, house4Data] = await Promise.all([
+        api.getHouse(),
+        api.getHouse(house4URL),
+      ]);
+
+      const house3Message = generateHouseDataMessage(house3Data);
+      const house4Message = generateHouseDataMessage(house4Data);
+
+      client.replyMessage(event.replyToken, [
+        { type: "text", text: "3房" },
+        house3Message,
+        { type: "text", text: "4房" },
+        house4Message,
+      ]);
     }
   }
   res.json({});
