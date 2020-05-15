@@ -44,6 +44,7 @@ const generateHouseDataMessage = (data) => {
 };
 
 const getRecentHouseMessage = async (url) => {
+  const currTime = new Date().getTime() / 1000;
   const houseData = await api.getHouse(url);
   const newData = houseData.filter(
     (h) => (currTime - h.updatetime) / duration < 1
@@ -55,8 +56,6 @@ const house4URL = `https://rent.591.com.tw/home/search/rsList?is_new_list=1&type
 
 const duration = 1800;
 setInterval(async () => {
-  const currTime = new Date().getTime() / 1000;
-
   const [house3Data, house4Data] = await Promise.all([
     getRecentHouseMessage(),
     getRecentHouseMessage(house4URL),
