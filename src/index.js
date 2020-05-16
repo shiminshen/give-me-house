@@ -60,7 +60,7 @@ setInterval(async () => {
   const [house3Data, house4Data] = await Promise.all([
     getRecentHouseMessage(house3URL),
     getRecentHouseMessage(house4URL),
-  ]).catch((e) => console.log(e));
+  ]).catch((e) => console.log("1111111111111", e));
   // prevent heroku idling every hour
   await fetch("https://give-me-house.herokuapp.com/webhook");
   if (house3Data.length || house4Data.length) {
