@@ -45,7 +45,9 @@ const generateHouseDataMessage = (data) => {
 
 const getRecentHouseMessage = async (url) => {
   const currTime = new Date().getTime() / 1000;
-  const houseData = await api.getHouse(url);
+  const houseData = await api
+    .getHouse(url)
+    .catch((e) => console.log(url, e) || []);
   const newData = houseData.filter(
     (h) => (currTime - h.updatetime) / duration < 1
   );
@@ -57,12 +59,12 @@ const house4URL = `https://rent.591.com.tw/home/search/rsList?is_new_list=1&type
 
 const duration = 1800;
 setInterval(async () => {
+  await fetch("https://give-me-house.herokuapp.com/webhook");
   const [house3Data, house4Data] = await Promise.all([
     getRecentHouseMessage(house3URL),
     getRecentHouseMessage(house4URL),
-  ]).catch((e) => console.log("1111111111111", e));
+  ]);
   // prevent heroku idling every hour
-  await fetch("https://give-me-house.herokuapp.com/webhook");
   if (house3Data.length || house4Data.length) {
     const house3Message = generateHouseDataMessage(house3Data);
     const house4Message = generateHouseDataMessage(house4Data);
